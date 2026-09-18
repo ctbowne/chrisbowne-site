@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Bowne</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="gallery"></main>
+
+<script src="images.js"></script>
+<script>
+  // Builds the page from the IMAGES list in images.js.
+  // To add a photo: put the file in the /images folder and add its
+  // filename to the IMAGES array in images.js. That's it.
+  const gallery = document.getElementById('gallery');
+
+  IMAGES.forEach(function (filename) {
+    const img = document.createElement('img');
+    img.src = 'images/' + filename;
+    img.alt = '';
+    img.loading = 'lazy';
+    gallery.appendChild(img);
+  });
+</script>
+
+</body>
+</html>
