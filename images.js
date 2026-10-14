@@ -5,7 +5,7 @@
 // The "caption" text is optional - leave it as "" if you don't want one.
 
 const IMAGES = [
-  { file: "sample-1.svg", caption: "Replace me - sample 1" },
-  { file: "sample-2.svg", caption: "Replace me - sample 2" },
-  { file: "sample-3.svg", caption: "Replace me - sample 3" }
+  { file: "86 untitled, 35.5x38in, mixed media on paper(2024).jpg", caption: "untitled, 35.5x38in, mixed media on paper (2024)" },
+  { file: "85 untitled, 23.5x21in, collage, pencil gouache (2025).jpg", caption: "untitled, 23.5x21in, collage, pencil gouache (2025)" },
+  { file: "84 meet us at aqueduct inn, 18x24in, mixed media on paper (2022).jpg", caption: "meet us at aqueduct inn, 18x24in, mixed media on paper (2022)" }
 ];
