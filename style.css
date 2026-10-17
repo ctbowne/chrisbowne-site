@@ -1,80 +1,203 @@
+/* Font used on the whole site (loaded from Fontshare) */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+
+:root {
+  --page-bg: #444444;      /* PAGE BACKGROUND GREY - change this one value */
+  --accent: #e8e61e;       /* YELLOW used for all text - change this one value */
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: #111;
+  background: var(--page-bg);
+  font-family: 'Satoshi', Arial, sans-serif;
 }
 
-#gallery {
+/* Header: name + tagline + email on the left, nav link on the right */
+.site-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 28px 5vw 24px;
 }
 
-#gallery figure {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 0 24px 0;
+.site-header a {
+  color: var(--accent);
+  text-decoration: none;
 }
 
-#gallery img {
+.site-header a:hover {
+  text-decoration: underline;
+}
+
+.site-title {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.site-tagline {
+  color: var(--accent);
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+.site-nav a {
+  font-size: 24px;
+}
+
+/* Info page text */
+.info-page {
+  max-width: 720px;
+  margin: 24px auto 80px;
+  padding: 0 5vw;
+  color: var(--accent);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.info-page h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 36px 0 12px;
+}
+
+.info-page p {
+  margin: 0 0 1.1em;
+}
+
+.info-page .sep {
+  text-align: center;
+  color: var(--accent);
+  margin: 2em 0;
+}
+
+/* Thumbnail grid: as many columns as fit the screen width */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+  padding: 6px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+#grid img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;   /* crops thumbnails only; the viewer shows the full photo */
   display: block;
   cursor: pointer;
+  background: #3a3a3a;
 }
 
-#gallery figcaption {
-  color: #ffd700;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  padding: 8px 4px 0;
-  text-align: center;
+#grid img:hover {
+  opacity: 0.85;
 }
 
-/* Lightbox: full-screen popup shown when a photo is clicked */
-.lightbox {
+/* Viewer: full-screen overlay, photo always fits the window */
+.viewer {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.92);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
   z-index: 100;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
-  padding: 24px;
 }
 
-.lightbox.open {
+.viewer.open {
   display: flex;
 }
 
-.lightbox img {
-  max-width: 92vw;
-  max-height: 85vh;
+.viewer-stage {
+  flex: 1;
+  min-height: 0;          /* lets the photo shrink to fit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 56px 0;
+}
+
+.viewer-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   display: block;
 }
 
-.lightbox-close {
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  color: #fff;
-  font-size: 40px;
-  line-height: 1;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
+.viewer-info {
+  text-align: center;
+  padding: 10px 16px 16px;
 }
 
-#lightbox-caption {
-  color: #ffd700;
-  font-family: Arial, sans-serif;
+#viewer-caption {
+  font-family: 'Satoshi', Arial, sans-serif;
+  color: var(--accent);
   font-size: 15px;
-  margin-top: 12px;
-  text-align: center;
+  margin: 0 0 4px;
+}
+
+#viewer-count {
+  color: var(--accent);
+  font-size: 12px;
+  margin: 0;
+}
+
+.viewer-close,
+.viewer-nav {
+  position: absolute;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  opacity: 0.8;
+}
+
+.viewer-close:hover,
+.viewer-nav:hover {
+  opacity: 1;
+}
+
+.viewer-close {
+  top: 8px;
+  right: 16px;
+  font-size: 40px;
+  line-height: 1;
+  z-index: 2;
+}
+
+.viewer-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  padding: 16px 12px;
+  z-index: 2;
+}
+
+.viewer-prev { left: 0; }
+.viewer-next { right: 0; }
+
+/* Phones: give the photos more room */
+@media (max-width: 600px) {
+  .site-title { font-size: 28px; }
+  .site-tagline { font-size: 16px; }
+  .site-nav a { font-size: 20px; }
+  .info-page { font-size: 16px; }
+  #grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 4px;
+    padding: 4px;
+  }
+  .viewer-stage {
+    padding: 48px 8px 0;
+  }
+  .viewer-nav {
+    font-size: 24px;
+    padding: 12px 6px;
+  }
 }

@@ -8,13 +8,30 @@
 </head>
 <body>
 
-<main id="gallery"></main>
+<header class="site-header">
+  <div>
+    <a href="index.html" class="site-title">chris bowne</a>
+    <div class="site-tagline">art los angeles</div>
+    <div class="site-tagline"><a href="mailto:ctbowne@gmail.com">ctbowne@gmail.com</a></div>
+  </div>
+  <nav class="site-nav"><a href="info.html">info</a></nav>
+</header>
 
-<!-- Lightbox: hidden overlay that shows a clicked photo full-size -->
-<div id="lightbox" class="lightbox">
-  <span class="lightbox-close">&times;</span>
-  <img id="lightbox-img" src="" alt="">
-  <p id="lightbox-caption"></p>
+<!-- Thumbnail grid: built from images.js -->
+<main id="grid"></main>
+
+<!-- Viewer: full-screen overlay showing one photo fitted to the window -->
+<div id="viewer" class="viewer" aria-hidden="true">
+  <button class="viewer-close" id="viewer-close" aria-label="Close">&times;</button>
+  <button class="viewer-nav viewer-prev" id="viewer-prev" aria-label="Previous photo">&#10094;</button>
+  <button class="viewer-nav viewer-next" id="viewer-next" aria-label="Next photo">&#10095;</button>
+  <div class="viewer-stage" id="viewer-stage">
+    <img id="viewer-img" src="" alt="">
+  </div>
+  <div class="viewer-info">
+    <p id="viewer-caption"></p>
+    <p id="viewer-count"></p>
+  </div>
 </div>
 
 <script src="images.js"></script>
@@ -22,52 +39,76 @@
   // Builds the page from the IMAGES list in images.js.
   // To add a photo: put the file in the /images folder and add an
   // entry (filename + caption) to the IMAGES array in images.js.
-  const gallery = document.getElementById('gallery');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const lightboxCaption = document.getElementById('lightbox-caption');
+  const grid = document.getElementById('grid');
+  const viewer = document.getElementById('viewer');
+  const viewerImg = document.getElementById('viewer-img');
+  const viewerCaption = document.getElementById('viewer-caption');
+  const viewerCount = document.getElementById('viewer-count');
+  const viewerStage = document.getElementById('viewer-stage');
+  let current = 0;
 
-  function openLightbox(src, caption) {
-    lightboxImg.src = src;
-    lightboxCaption.textContent = caption || '';
-    lightbox.classList.add('open');
+  function src(i) { return 'images/' + IMAGES[i].file; }
+
+  function show(i) {
+    current = (i + IMAGES.length) % IMAGES.length; // wraps around
+    viewerImg.src = src(current);
+    viewerImg.alt = IMAGES[current].caption || '';
+    viewerCaption.textContent = IMAGES[current].caption || '';
+    viewerCount.textContent = (current + 1) + ' / ' + IMAGES.length;
+    // Preload the neighbours so next/previous feels instant
+    new Image().src = src((current + 1) % IMAGES.length);
+    new Image().src = src((current - 1 + IMAGES.length) % IMAGES.length);
   }
 
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    lightboxImg.src = '';
+  function openViewer(i) {
+    show(i);
+    viewer.classList.add('open');
+    viewer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   }
 
-  IMAGES.forEach(function (item) {
-    const figure = document.createElement('figure');
+  function closeViewer() {
+    viewer.classList.remove('open');
+    viewer.setAttribute('aria-hidden', 'true');
+    viewerImg.src = '';
+    document.body.style.overflow = '';
+  }
 
-    const img = document.createElement('img');
-    img.src = 'images/' + item.file;
-    img.alt = item.caption || '';
-    img.loading = 'lazy';
-    img.addEventListener('click', function () {
-      openLightbox(img.src, item.caption);
-    });
-    figure.appendChild(img);
-
-    if (item.caption) {
-      const caption = document.createElement('figcaption');
-      caption.textContent = item.caption;
-      figure.appendChild(caption);
-    }
-
-    gallery.appendChild(figure);
+  IMAGES.forEach(function (item, i) {
+    const thumb = document.createElement('img');
+    thumb.src = 'images/' + item.file;
+    thumb.alt = item.caption || '';
+    thumb.loading = 'lazy';
+    thumb.addEventListener('click', function () { openViewer(i); });
+    grid.appendChild(thumb);
   });
 
-  // Close when clicking the X, clicking the dark background, or pressing Escape
-  lightbox.addEventListener('click', function (e) {
-    if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
-      closeLightbox();
-    }
+  document.getElementById('viewer-close').addEventListener('click', closeViewer);
+  document.getElementById('viewer-prev').addEventListener('click', function () { show(current - 1); });
+  document.getElementById('viewer-next').addEventListener('click', function () { show(current + 1); });
+
+  // Click the dark area around the photo to close
+  viewerStage.addEventListener('click', function (e) {
+    if (e.target === viewerStage) closeViewer();
   });
+
+  // Keyboard: Escape closes, left/right arrows move between photos
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeLightbox();
+    if (!viewer.classList.contains('open')) return;
+    if (e.key === 'Escape') closeViewer();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
   });
+
+  // Swipe left/right on phones and tablets
+  let touchX = null;
+  viewer.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  viewer.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) show(dx < 0 ? current + 1 : current - 1);
+    touchX = null;
+  }, { passive: true });
 </script>
 
 </body>
