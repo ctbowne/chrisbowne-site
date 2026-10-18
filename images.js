@@ -7,7 +7,7 @@
 const IMAGES = [
   { file: "86 untitled, 35.5x38in, mixed media on paper (2024).jpg", caption: "untitled, 35.5x38in, mixed media on paper (2024)" },
   { file: "85 untitled, 23.5x21in, collage, pencil gouache (2025).jpg", caption: "untitled, 23.5x21in, collage, pencil gouache (2025)" },
-  { file: "84 meet us at aqueduct inn, 18x24in, mixed media on paper (2022).jpg", caption: "meet us at aqueduct inn, 18x24in, mixed media on paper (2022)" },
+  { file: "84 meet us at aqueduct inn, 18x24in, mixed media on paper (2022).JPG", caption: "meet us at aqueduct inn, 18x24in, mixed media on paper (2022)" },
   { file: "83 thing 2, 18x24in, mixed media on paper (2022).jpg", caption: "thing 2, 18x24in, mixed media on paper (2022)" },
   { file: "82 space rent, 18x24in, mixed media on paper (2022).jpg", caption: "space rent, 18x24in, mixed media on paper (2022)" },
   { file: "81 line composition, 6x5in, graphite on paper mounted on board (2022).jpg", caption: "line composition, 6x5in, graphite on paper mounted on board (2022)" },
