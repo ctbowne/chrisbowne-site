@@ -68,7 +68,7 @@ const IMAGES = [
   { file: "26 mojave, 42x56in, epson print collage on paper (2014).jpg", caption: "mojave, 42x56in, epson print collage on paper (2014)" },
   { file: "25 mojave, 25x44in, epson print collage on paper (2014).jpg", caption: "mojave, 25x44in, epson print collage on paper (2014)" },
   { file: "24 mojave, 22x38in, epson print collage on paper (2014).jpg", caption: "mojave, 22x38in, epson print collage on paper (2014)" },
-  { file: "23 movie mashup (walking around), 61x18in, pencil, epson print on paper (2011).jpg", caption: "movie mashup (walking around), 61x18in, pencil, epson print on paper (2011)" },
+  { file: "23 movie mashup (walking around), 61x18in, graphite, epson print on paper (2011).jpg", caption: "movie mashup (walking around), 61x18in, graphite, epson print on paper (2011)" },
   { file: "22 cypress, 17x23in, pen, epson print on paper (2014).jpg", caption: "cypress, 17x23in, pen, epson print on paper (2014)" },
   { file: "21 movie mashup, 10x10ft, epson print on paper (2011).jpg", caption: "movie mashup, 10x10ft, epson print on paper (2011)" },
   { file: "20 movie mashup, 26x48in, epson print on canvas (2009-2011).jpg", caption: "movie mashup, 26x48in, epson print on canvas (2009-2011)" },
